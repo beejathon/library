@@ -6,40 +6,59 @@ function Book(title, author, pages) {
     this.pages = pages;
 }
 
-function addBookToLibrary(e) {
+function addBook(e) {
     e.preventDefault();
     const dataForm = new FormData(e.target);
-    console.log(dataForm.get('status'));
     const book = new Book(dataForm.get('title'), dataForm.get('author'), dataForm.get('pages'));
     myLibrary.push(book);
     updateLibrary();
     document.getElementById('bookregister').reset();
+}
 
+function removeBook(e) {
+    e.preventDefault();
+    for (let i = 0; i < myLibrary.length; i++) {
+       if (myLibrary[i].title == e.target.id) {
+           myLibrary.splice(i, 1);
+       }
+    }
+    updateLibrary();
+}
+
+function createBookCard(book) {
+    const entry = document.createElement('div');
+    const header = document.createElement('div');
+    const delBtn = document.createElement('button');
+    const title = document.createElement('p');
+    const author = document.createElement('p');
+    const pages = document.createElement('p');
+    entry.classList.add('bookcard')
+    header.classList.add('bookcard-header');
+    delBtn.classList.add('del-button');
+    delBtn.innerHTML = '&times;';
+    delBtn.setAttribute('id', book.title);
+    title.textContent = book.title;
+    title.style.fontSize = 'large';
+    title.style.fontWeight = 'bold';
+    author.textContent = 'Author: ' + book.author;
+    pages.textContent = 'Pages: ' + book.pages;
+    header.appendChild(delBtn);
+    entry.appendChild(header);
+    entry.appendChild(title);
+    entry.appendChild(author);
+    entry.appendChild(pages);
+    bookshelf.appendChild(entry);
+    delBtn.addEventListener('click', removeBook);
 }
 
 function updateLibrary() {
     bookshelf.textContent = '';
-    myLibrary.forEach(book => {
-        const entry = document.createElement('div');
-        const title = document.createElement('p');
-        const author = document.createElement('p');
-        const pages = document.createElement('p');
-        title.textContent = book.title;
-        title.style.fontSize = 'large';
-        title.style.fontWeight = 'bold';
-        author.textContent = 'Author: ' + book.author;
-        pages.textContent = 'Pages: ' + book.pages;
-        entry.classList.add('bookcard')
-        entry.appendChild(title);
-        entry.appendChild(author);
-        entry.appendChild(pages);
-        bookshelf.appendChild(entry);
-    });
+    myLibrary.forEach(book => createBookCard(book));
 }
 
 const bookshelf = document.querySelector('.bookshelf');
 const bookRegister = document.getElementById('bookregister');
-bookRegister.addEventListener('submit', addBookToLibrary);
+bookRegister.addEventListener('submit', addBook);
 
 const first = new Book('Capital, Vol. 1: A Critical Analysis of Capitalist Production ', 'Karl Marx', '1152');
 myLibrary.push(first);

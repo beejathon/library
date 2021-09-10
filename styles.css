@@ -1,13 +1,14 @@
-.main-container {
+.container {
     display:flex;
     flex-direction:column;
-    flex-basis:auto;
     align-items:center;
+    justify-content:stretch;
+    column-gap:30px;
 }
 
 .bookshelf {
     display:grid;
-    grid-template-columns:repeat(5, 1fr);
+    grid-template-columns:repeat(4, 1fr);
     grid-gap:10px;
     grid-auto-rows:minmax(200px, auto);
     border:1px solid black;
@@ -29,6 +30,21 @@
     padding:10px;
     border:1px solid black;
     border-radius:10px;
+}
+
+.bookcard-header {
+    display:flex;
+    flex-direction:row;
+    justify-content:flex-end;
+}
+
+.bookcard-header .del-button {
+    cursor:pointer;
+    border:none;
+    outline:none;
+    background:none;
+    font-size:large;
+    font-weight:bold;
 }
 
 *, *:after, *:before {
