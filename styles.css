@@ -1,0 +1,26 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bookshelf {
+    display: grid;
+    grid-template-columns: 5fr;
+    align-items: flex-start;
+    border: solid;
+    padding: 20px;
+    margin: 20px;
+}
+
+.bookcard {
+    text-align: justify;
+    margin: auto;
+    padding: 10px;
+    border: solid;
+}
+
+#bookregister {
+    align-self: flex-end;
+    margin: auto;
+}

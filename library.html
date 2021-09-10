@@ -7,9 +7,20 @@
 </head>
 
 <body>
-<div class='container'>
-    <div class='libgrid'></div>
-    <form id='bookentry'>
+<div class='main-container'>
+    <h3>A Simple Library</h3>
+    <div class='bookshelf'></div>
+    <form id='bookregister'>
+        <input type='text' name='name' placeholder='title'>
+        <input type='text' name='name' placeholder='author'>
+        <input type='text' name='name' placeholder='pages'>
+        <select>
+            <option value='reading-status'>Status*</option>
+            <option value='read'>Read</option>
+            <option value='currently-reading'>Currently Reading</option>
+            <option value='not-read'>Not Read</option>
+        </select>
+        <button type='submit' value='submit'>Add Book</button>
     </form>
 </div>
 </body>
