@@ -10,18 +10,28 @@
 <div class='main-container'>
     <h3>A Simple Library</h3>
     <div class='bookshelf'></div>
-    <form id='bookregister'>
-        <input type='text' id='title' name='title' placeholder='Title' autocomplete='off' required>
-        <input type='text' id='author' name='author' placeholder='Author'autocomplete='off' required>
-        <input type='number' id='pages' name='pages' placeholder='Pages' autocomplete='off' required>
-        <select id='status' name ='status' required>
-            <option value='status' selected disabled>Status</option>
-            <option value='read'>Read</option>
-            <option value='currently-reading'>Currently Reading</option>
-            <option value='not-read'>Not Read</option>
-        </select>
-        <input type='submit' value='Add'>
-    </form>
+    <button data-modal-target='#modal'>Add Book</button>
 </div>
+<div class='modal' id='modal'>
+    <div class='modal-header'>
+        <div class='title'>Add New Book to Library</div>
+        <button data-close-button class='close-button'>&times;</button>
+    </div>
+    <div class='modal-body'>
+        <form class='register' id='bookregister'>
+            <input type='text' id='title' name='title' placeholder='Title' autocomplete='off' required>
+            <input type='text' id='author' name='author' placeholder='Author'autocomplete='off' required>
+            <input type='number' id='pages' name='pages' placeholder='Pages' autocomplete='off' required>
+            <select id='status' name ='status' required>
+                <option value='status' selected disabled>Status</option>
+                <option value='read'>Read</option>
+                <option value='currently-reading'>Currently Reading</option>
+                <option value='not-read'>Not Read</option>
+            </select>
+            <button data-close-button class='close-button' type='submit'>Add Book</button>
+        </form>
+    </div>
+</div>
+<div id='overlay'></div>
 </body>
 </html>
