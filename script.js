@@ -1,15 +1,39 @@
 let myLibrary = [];
 
-function Book(title, author, pages) {
+function Book(title, author, pages, readStatus) {
     this.title = title;
     this.author = author;
     this.pages = pages;
+    this.readStatus = readStatus;
+}
+
+Book.prototype = {
+    switchStatus(e) {
+        e.preventDefault();
+        console.log(e);
+        const index = findBook(myLibrary, e.target.id);
+        if (e.target.className == 'toggleRead') {
+            e.target.className = 'toggleBtn'
+            e.target.textContent = 'Not Read'
+            myLibrary[index].readStatus = 'Not-Read'
+        } else {
+            e.target.className = 'toggleRead'
+            e.target.textContent = 'Read'
+            myLibrary[index].readStatus = 'Read'
+        }
+    }
+};
+
+function findBook(myLibrary, title) {
+    for (const book of myLibrary) {
+        if (book.title == title) return myLibrary.indexOf(book);
+    }
 }
 
 function addBook(e) {
     e.preventDefault();
     const dataForm = new FormData(e.target);
-    const book = new Book(dataForm.get('title'), dataForm.get('author'), dataForm.get('pages'));
+    const book = new Book(dataForm.get('title'), dataForm.get('author'), dataForm.get('pages'), dataForm.get('readstatus'));
     myLibrary.push(book);
     updateLibrary();
     document.getElementById('bookregister').reset();
@@ -17,7 +41,7 @@ function addBook(e) {
 
 function removeBook(e) {
     e.preventDefault();
-    for (let i = 0; i < myLibrary.length; i++) {
+    for (let i=0; i < myLibrary.length; i++) {
        if (myLibrary[i].title == e.target.id) {
            myLibrary.splice(i, 1);
        }
@@ -26,6 +50,15 @@ function removeBook(e) {
 }
 
 function createBookCard(book) {
+    const toggleBtn = document.createElement('button')
+    toggleBtn.classList.add('toggleBtn');
+    toggleBtn.textContent = 'Not Read';
+    toggleBtn.setAttribute('id', book.title);
+    if (book.readStatus == 'Read') {
+        toggleBtn.classList.remove('toggleBtn')
+        toggleBtn.classList.add('toggleRead');
+        toggleBtn.textContent = 'Read';
+    }
     const entry = document.createElement('div');
     const header = document.createElement('div');
     const delBtn = document.createElement('button');
@@ -47,8 +80,10 @@ function createBookCard(book) {
     entry.appendChild(title);
     entry.appendChild(author);
     entry.appendChild(pages);
+    entry.appendChild(toggleBtn);
     bookshelf.appendChild(entry);
     delBtn.addEventListener('click', removeBook);
+    toggleBtn.addEventListener('click', book.switchStatus);
 }
 
 function updateLibrary() {
@@ -60,17 +95,17 @@ const bookshelf = document.querySelector('.bookshelf');
 const bookRegister = document.getElementById('bookregister');
 bookRegister.addEventListener('submit', addBook);
 
-const first = new Book('Capital, Vol. 1: A Critical Analysis of Capitalist Production ', 'Karl Marx', '1152');
+const first = new Book('Capital, Vol. 1: A Critical Analysis of Capitalist Production ', 'Karl Marx', '1152', 'Read');
 myLibrary.push(first);
-const second = new Book('Imperialism: The Highest Stage of Capitalism', 'Vladimir Lenin', '192');
+const second = new Book('Imperialism: The Highest Stage of Capitalism', 'Vladimir Lenin', '192', 'Read');
 myLibrary.push(second);
-const third = new Book('The State and Revolution', 'Vladimir Lenin', '116');
+const third = new Book('The State and Revolution', 'Vladimir Lenin', '116', 'Read');
 myLibrary.push(third);
-const fourth = new Book('Socialism: Utopian and Scientific', 'Friedrich Engels', '86');
+const fourth = new Book('Socialism: Utopian and Scientific', 'Friedrich Engels', '86', 'Read');
 myLibrary.push(fourth);
-const fifth = new Book('Quotations from Chairman Mao Tse-Tung', 'Mao Zedong', '311');
+const fifth = new Book('Quotations from Chairman Mao Tse-Tung', 'Mao Zedong', '311', 'Not-Read');
 myLibrary.push(fifth);
-const sixth = new Book('The Wretched of the Earth', 'Frantz Fanon', '320');
+const sixth = new Book('The Wretched of the Earth', 'Frantz Fanon', '320', 'Not-Read');
 myLibrary.push(sixth);
 updateLibrary();
 

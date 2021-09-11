@@ -8,9 +8,9 @@
 
 <body>
 <div class='container'>
-    <h3>A Simple Library</h3>
+    <h1>A Simple Library</h3>
+    <button id='addBtn' data-modal-target='#modal'>Add Book</button>
     <div class='bookshelf'></div>
-    <button data-modal-target='#modal'>Add Book</button>
 </div>
 <div class='modal' id='modal'>
     <div class='modal-header'>
@@ -22,11 +22,10 @@
             <input type='text' id='title' name='title' placeholder='Title' autocomplete='off' required>
             <input type='text' id='author' name='author' placeholder='Author'autocomplete='off' required>
             <input type='number' id='pages' name='pages' placeholder='Pages' autocomplete='off' required>
-            <select id='status' name ='status' required>
+            <select id='readstatus' name ='readstatus' required>
                 <option value='status' selected disabled>Status</option>
-                <option value='read'>Read</option>
-                <option value='currently-reading'>Currently Reading</option>
-                <option value='not-read'>Not Read</option>
+                <option value='Read'>Read</option>
+                <option value='Not-Read'>Not Read</option>
             </select>
             <button data-close-button class='close-button' type='submit'>Add Book</button>
         </form>
