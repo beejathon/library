@@ -24,7 +24,7 @@ const myLibrary = (() => {
         for (const book of _library) {
             if (book.title == title) return _library.indexOf(book);
         }
-        // _library.filter(book.title === title).indexOf(book);
+        //return _library.indexOf(_library.filter((book) => book.title === title)); // not sure why this breaks switchStatus function only
     }
 
     function addBook(e) {
@@ -32,7 +32,7 @@ const myLibrary = (() => {
         const dataForm = new FormData(e.target);
         const book = new Book(dataForm.get('title'), dataForm.get('author'), dataForm.get('pages'), dataForm.get('readstatus'));
         _library.push(book);
-        display.render(_library);
+        display.render();
         document.getElementById('bookregister').reset();
     }
 
@@ -40,17 +40,21 @@ const myLibrary = (() => {
         e.preventDefault();
         const index = findBook(e.target.id);
         _library.splice(index, 1)
-        display.render(_library);
+        display.render();
     }
 
     function switchStatus(e) {
         e.preventDefault();
         const index = findBook(e.target.id);
         _library[index].readStatus = (e.target.className == 'toggleRead') ? 'Not-Read' : 'Read';
-        display.render(_library);
+        display.render();
     }
 
-    return {findBook, addBook, removeBook, switchStatus, _library}
+    function update() {
+        _library.forEach(book => display.addBookCard(book))
+    }
+
+    return {findBook, addBook, removeBook, switchStatus, update}
 
 })();
 
@@ -60,7 +64,7 @@ const display = (() => {
         //update library display
         const bookshelf = document.querySelector('.bookshelf');
         bookshelf.textContent = '';
-        myLibrary._library.forEach(book => createBookCard(book));
+        myLibrary.update();
 
         // add event listeners
         const bookRegister = document.getElementById('bookregister');
@@ -91,9 +95,24 @@ const display = (() => {
         })
     }
 
-    function createBookCard(book) {
+    function addBookCard(book) {
         const bookshelf = document.querySelector('.bookshelf');
+        const bookCard = document.createElement('div');
+        const header = document.createElement('div');
+        const delBtn = document.createElement('button');
+        const title = document.createElement('p');
+        const author = document.createElement('p');
+        const pages = document.createElement('p');
         const toggleBtn = document.createElement('button')
+        bookCard.classList.add('bookcard')
+        header.classList.add('bookcard-header');
+        delBtn.classList.add('del-button');
+        delBtn.innerHTML = '&times;';
+        delBtn.setAttribute('id', book.title);
+        title.textContent = book.title;
+        title.classList.add('bookcard-title')
+        author.textContent = book.author;
+        pages.textContent = book.pages + ' pages';
         toggleBtn.classList.add('toggleBtn');
         toggleBtn.textContent = 'Not Read';
         toggleBtn.setAttribute('id', book.title);
@@ -102,22 +121,6 @@ const display = (() => {
             toggleBtn.classList.add('toggleRead');
             toggleBtn.textContent = 'Read';
         }
-        const bookCard = document.createElement('div');
-        const header = document.createElement('div');
-        const delBtn = document.createElement('button');
-        const title = document.createElement('p');
-        const author = document.createElement('p');
-        const pages = document.createElement('p');
-        bookCard.classList.add('bookcard')
-        header.classList.add('bookcard-header');
-        delBtn.classList.add('del-button');
-        delBtn.innerHTML = '&times;';
-        delBtn.setAttribute('id', book.title);
-        title.textContent = book.title;
-        title.style.fontSize = 'large';
-        title.style.fontWeight = 'bold';
-        author.textContent = 'Author: ' + book.author;
-        pages.textContent = 'Pages: ' + book.pages;
         header.appendChild(delBtn);
         bookCard.appendChild(header);
         bookCard.appendChild(title);
@@ -141,7 +144,7 @@ const display = (() => {
         overlay.classList.remove('active');
     }
 
-    return {render, createBookCard}
+    return {render, addBookCard}
 
 })();
 

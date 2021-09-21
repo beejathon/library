@@ -19,15 +19,15 @@
     </div>
     <div class='modal-body'>
         <form class='register' id='bookregister'>
-            <input type='text' id='title' name='title' placeholder='Title' autocomplete='off' required>
-            <input type='text' id='author' name='author' placeholder='Author'autocomplete='off' required>
-            <input type='number' id='pages' name='pages' placeholder='Pages' autocomplete='off' required>
-            <select id='readstatus' name ='readstatus' required>
+            <input type='text' class='input' id='title' name='title' placeholder='Title' autocomplete='off' required>
+            <input type='text' class='input' id='author' name='author' placeholder='Author'autocomplete='off' required>
+            <input type='number' class='input' id='pages' name='pages' placeholder='Pages' autocomplete='off' required>
+            <select class='input' id='readstatus' name ='readstatus' required>
                 <option value='status' selected disabled>Status</option>
                 <option value='Read'>Read</option>
                 <option value='Not-Read'>Not Read</option>
             </select>
-            <button data-close-button class='close-button' type='submit'>Add Book</button>
+            <button data-close-button class='close-button' id='submitbook' type='submit'>Add Book</button>
         </form>
     </div>
 </div>

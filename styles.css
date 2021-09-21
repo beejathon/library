@@ -26,14 +26,19 @@
 }
 
 .bookcard {
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    align-items:center;
     text-align:center;
-    padding:10px;
+    padding:10px 15px;
     border:1px solid black;
     border-radius:10px;
 }
 
 .bookcard-header {
     display:flex;
+    width: 100%;
     flex-direction:row;
     justify-content:flex-end;
 }
@@ -43,8 +48,14 @@
     border:none;
     outline:none;
     background:none;
-    font-size:large;
+    font-size:1.75rem;
     font-weight:bold;
+    align-self:flex-end;
+}
+
+.bookcard-title {
+    font-size: 20px;
+    font-weight: bold;
 }
 
 *, *:after, *:before {
@@ -78,7 +89,7 @@
 }
 
 .modal-header .title {
-    font-size:1rem;
+    font-size:1.2rem;
     font-weight:bold;
 }
 
@@ -87,14 +98,44 @@
     border:none;
     outline:none;
     background:none;
-    font-size:1.25rem;
+    font-size: 1.5rem;
     font-weight:bold;
 }
 
 .modal-body .register {
     padding:10px 15px;
+    height: 270px;
+    font-size: 1rem;
     display:flex;
     flex-direction:column;
+    justify-content:space-around;
+}
+
+.modal-body .input {
+    width: 100%;
+    padding: 10px 15px;
+    margin: 2px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#submitbook {
+    width: 100%;
+    background: linear-gradient(#79bbff, #378de5);
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#submitbook:hover {
+    background: linear-gradient(#378de5, #79bbff);
 }
 
 #overlay {
