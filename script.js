@@ -10,21 +10,42 @@ class Book {
 const myLibrary = (() => {
     const _library = []
 
-    // sample books
-    const first = new Book('Capital, Vol. 1: A Critical Analysis of Capitalist Production ', 'Karl Marx', '1152', 'Read');
-    const second = new Book('Socialism: Utopian and Scientific', 'Friedrich Engels', '86', 'Read');
-    const third = new Book('Imperialism: The Highest Stage of Capitalism', 'Vladimir Lenin', '192', 'Read');
-    const fourth = new Book('Quotations from Chairman Mao Tse-Tung', 'Mao Zedong', '311', 'Not-Read');
-    _library.push(first);
-    _library.push(second);
-    _library.push(third);
-    _library.push(fourth);
+    function init() {
+        // sample books
+        if (!localStorage.getItem('sampleBooks')) {
+            _library.push(
+                new Book('Capital, Vol. 1: A Critical Analysis of Capitalist Production ', 'Karl Marx', '1152', 'Read'),
+                new Book('Crime and Punishment', 'Fyodor Dostoevsky', '671', 'Not-Read'),
+                new Book('Night Sky with Exit Wounds', 'Ocean Vuong', '89', 'Read'),
+            );
+            saveLocal();
+            display.render();
+        }
+        restoreLocal();
+        display.render();
+    }
+
+    // local storage
+    function saveLocal() {
+        localStorage.setItem('_library', JSON.stringify(_library))
+    }
+
+    function restoreLocal() {
+        if(!localStorage.getItem('sampleBooks')) {
+            localStorage.setItem('sampleBooks', true);
+        } else {
+            objects = JSON.parse(localStorage.getItem('_library'));    
+            for(let element of objects) {
+                if(element !== null) {
+                    _library.push(new Book(element.title, element.author, element.pages, element.readStatus))
+                }
+            }
+            saveLocal();
+        }
+    }
 
     function findBook(title) {
-        for (const book of _library) {
-            if (book.title == title) return _library.indexOf(book);
-        }
-        //return _library.indexOf(_library.filter((book) => book.title === title)); // not sure why this breaks switchStatus function only
+        return _library.indexOf(_library.find((book) => book.title === title));
     }
 
     function addBook(e) {
@@ -32,6 +53,7 @@ const myLibrary = (() => {
         const dataForm = new FormData(e.target);
         const book = new Book(dataForm.get('title'), dataForm.get('author'), dataForm.get('pages'), dataForm.get('readstatus'));
         _library.push(book);
+        saveLocal();
         display.render();
         document.getElementById('bookregister').reset();
     }
@@ -40,6 +62,7 @@ const myLibrary = (() => {
         e.preventDefault();
         const index = findBook(e.target.id);
         _library.splice(index, 1)
+        saveLocal();
         display.render();
     }
 
@@ -47,6 +70,7 @@ const myLibrary = (() => {
         e.preventDefault();
         const index = findBook(e.target.id);
         _library[index].readStatus = (e.target.className == 'toggleRead') ? 'Not-Read' : 'Read';
+        saveLocal();
         display.render();
     }
 
@@ -54,7 +78,7 @@ const myLibrary = (() => {
         _library.forEach(book => display.addBookCard(book))
     }
 
-    return {findBook, addBook, removeBook, switchStatus, update}
+    return {findBook, addBook, removeBook, switchStatus, update, init, _library}
 
 })();
 
@@ -148,4 +172,4 @@ const display = (() => {
 
 })();
 
-display.render();
+myLibrary.init();
